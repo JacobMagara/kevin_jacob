@@ -1,0 +1,175 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Data</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Add New Data</h1>
+        <form action="/api/add_incident" method="POST">
+            <h2>New Incident</h2>
+            <div class="form-group">
+                <label for="disease">Disease</label>
+                <input type="text" id="disease" name="disease" required>
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" required>
+            </div>
+            <div class="form-group">
+                <label for="cases">Number of Cases</label>
+                <input type="number" id="cases" name="cases" required>
+            </div>
+            <div class="form-group">
+                <label for="deaths">Number of Deaths</label>
+                <input type="number" id="deaths" name="deaths">
+            </div>
+            <button type="submit">Add Incident</button>
+        </form>
+
+        <form action="/api/add_vaccination" method="POST">
+            <h2>New Vaccination Record</h2>
+            <div class="form-group">
+                <label for="disease">Disease</label>
+                <input type="text" id="disease" name="disease" required>
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" required>
+            </div>
+            <div class="form-group">
+                <label for="vaccinated">Number Vaccinated</label>
+                <input type="number" id="vaccinated" name="vaccinated" required>
+            </div>
+            <button type="submit">Add Vaccination Record</button>
+        </form>
+    </div>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Data</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Add New Data</h1>
+        <div class="welcome-actions">
+        <a href="home.html">Home</a>
+        <a href="view_data.html" class="btn">View Data</a>
+        <a href="logout.html" class="btn">Log Out</a>
+    </div>
+
+        <form id="incidentForm">
+            <h2>New Incident</h2>
+            <input type="hidden" name="type" value="incident">
+            <input type="hidden" name="user_id" value="1">
+
+            <div class="form-group">
+                <label for="disease">Disease</label>
+                <input type="text" id="disease" name="disease_name" required>
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" required>
+            </div>
+            <div class="form-group">
+                <label for="cases">Number of Cases</label>
+                <input type="number" id="cases" name="number_of_cases" required>
+            </div>
+            <div class="form-group">
+                <label for="deaths">Number of Deaths</label>
+                <input type="number" id="deaths" name="number_of_deaths">
+            </div>
+            <button type="submit">Add Incident</button>
+        </form>
+
+        <form id="vaccinationForm">
+            <h2>New Vaccination Record</h2>
+            <input type="hidden" name="type" value="vaccination">
+            <input type="hidden" name="user_id" value="1">
+
+            <div class="form-group">
+                <label for="disease">Disease</label>
+                <input type="text" id="disease" name="disease_name" required>
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" required>
+            </div>
+            <div class="form-group">
+                <label for="vaccinated">Number Vaccinated</label>
+                <input type="number" id="vaccinated" name="number_vaccinated" required>
+            </div>
+            <button type="submit">Add Vaccination Record</button>
+        </form>
+
+        <div id="response-message"></div> <!-- Placeholder for messages -->
+    </div>
+
+    <script>
+        // Function to handle form submission
+        function handleFormSubmission(formId, apiUrl) {
+            const form = document.getElementById(formId);
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault(); // Prevent the default form submission behavior
+
+                const formData = new FormData(form); // Capture form data
+
+                // Create a JSON object from the FormData
+                const formObject = {};
+                formData.forEach((value, key) => {
+                    formObject[key] = value;
+                });
+
+                try {
+                    // Send an asynchronous POST request
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formObject),
+                    });
+
+                    // Parse the JSON response
+                    const result = await response.json();
+
+                    // Display success or error message
+                    const messageDiv = document.getElementById('response-message');
+                    if (response.ok) {
+                        messageDiv.innerHTML = `<p class="success">${result.message || 'Record added successfully!'}</p>`;
+                    } else {
+                        messageDiv.innerHTML = `<p class="error">${result.error || 'Error adding record'}</p>`;
+                    }
+                } catch (error) {
+                    // Handle any errors during the request
+                    document.getElementById('response-message').innerHTML = `<p class="error">An error occurred: ${error.message}</p>`;
+                }
+            });
+        }
+
+        // Apply the function to both forms
+        handleFormSubmission('incidentForm', '/api/add_data');
+        handleFormSubmission('vaccinationForm', '/api/add_data');
+    </script>
+
+    <style>
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+
+</body>
+</html>
+
