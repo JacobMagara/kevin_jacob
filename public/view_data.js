@@ -37,22 +37,40 @@ function fetchAllData() {
     fetch(`/api/view_data/${userId}`)
         .then(response => response.json())
         .then(data => {
-            const tableBody = document.querySelector('#data-table tbody');
-            tableBody.innerHTML = ''; // Clear existing table data
+            const { incidences, vaccinations } = data; // Destructure the response
 
-            data.forEach(record => {
+            // Get table bodies
+            const incidencesTableBody = document.querySelector('#incidences-table tbody');
+            const vaccinationsTableBody = document.querySelector('#vaccinations-table tbody');
+
+            // Clear existing data
+            incidencesTableBody.innerHTML = '';
+            vaccinationsTableBody.innerHTML = '';
+
+            // Display incidences
+            incidences.forEach(record => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${record.location || 'N/A'}</td>
+                    <td>${record.location}</td>
                     <td>${record.disease_name}</td>
                     <td>${new Date(record.date_reported).toLocaleDateString()}</td>
-                    <td>${record.number_of_cases !== null ? record.number_of_cases : 'N/A'}</td>
-                    <td>${record.number_of_deaths !== null ? record.number_of_deaths : 'N/A'}</td>
-                    <td>${record.number_vaccinated !== null ? record.number_vaccinated : 'N/A'}</td>
+                    <td>${record.number_of_cases}</td>
+                    <td>${record.number_of_deaths}</td>
                 `;
-                tableBody.appendChild(row);
+                incidencesTableBody.appendChild(row);
+            });
+
+            // Display vaccinations
+            vaccinations.forEach(record => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${record.location}</td>
+                    <td>${record.disease_name}</td>
+                    <td>${new Date(record.date_of_vaccination).toLocaleDateString()}</td>
+                    <td>${record.number_of_vaccinated}</td>
+                `;
+                vaccinationsTableBody.appendChild(row);
             });
         })
         .catch(err => console.error('Error fetching data:', err));
 }
-

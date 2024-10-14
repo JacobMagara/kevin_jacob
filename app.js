@@ -266,14 +266,15 @@ app.post('/api/add_data', (req, res) => {
 // });
 
 // Route to view both incidence and vaccination by user ID (GET /api/view_data/:user_id)
+// Route to view both incidences and vaccinations by user ID (GET /api/view_data/:user_id)
 app.get('/api/view_data/:user_id', (req, res) => {
     const { user_id } = req.params;
 
-    const incidentsSql = 'SELECT disease_name, date_reported, number_of_cases, number_of_deaths FROM incidences WHERE user_id = ?';
-    const vaccinationsSql = 'SELECT disease_name, date_of_vaccination AS date_reported, NULL AS number_of_cases, NULL AS number_of_deaths, number_of_vaccinated FROM vaccinations WHERE user_id = ?';
+    const incidentsSql = 'SELECT disease_name, location, date_reported, number_of_cases, number_of_deaths FROM incidences WHERE user_id = ?';
+    const vaccinationsSql = 'SELECT disease_name, location, date_of_vaccination, number_of_vaccinated FROM vaccinations WHERE user_id = ?';
 
     // First, query incidences
-    db.query(incidentsSql, [user_id], (err, incidents) => {
+    db.query(incidentsSql, [user_id], (err, incidences) => {
         if (err) {
             console.log("Error retrieving incidences:", err.message);
             return res.status(500).send('Error retrieving incidences');
@@ -286,14 +287,15 @@ app.get('/api/view_data/:user_id', (req, res) => {
                 return res.status(500).send('Error retrieving vaccinations');
             }
 
-            // Combine incidents and vaccinations into a single array
-            const allData = [...incidents, ...vaccinations];
-
-            // Send the combined data
-            res.status(200).send(allData);
+            // Send separate arrays for incidences and vaccinations
+            res.status(200).json({
+                incidences: incidences,
+                vaccinations: vaccinations
+            });
         });
     });
 });
+
 
 // Serve the login page
 app.get('/login', (req, res) => {

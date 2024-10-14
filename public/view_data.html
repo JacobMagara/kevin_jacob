@@ -50,24 +50,46 @@
             <a href="home.html">Home</a>
             <a href="add_data.html">Add Data</a>
         </nav>
-        <table id="data-table">
-            <thead>
-                <tr>
-                    <!-- <th>Region</th>
-                    <th>Country</th> -->
-                    <th>Location</th>
-                    <th>Disease</th>
-                    <th>Date Reported</th>
-                    <th>Cases</th>
-                    <th>Deaths</th>
-                    <th>Vaccinated</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Data will be inserted here by JavaScript -->
-            </tbody>
-        </table>
+        
+        <div class="data">
+            
+            <div class="incidences">
+                <table id="incidences-table">
+                    <h2>Incidences</h2>
+                    <thead>
+                        <tr>
+                            <th>Location</th>
+                            <th>Disease</th>
+                            <th>Date Reported</th>
+                            <th>Cases</th>
+                            <th>Deaths</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Incidences data will be inserted here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="vaccinations">
+                <table id="vaccinations-table">
+                    <h2>Vaccinations</h2>
+                    <thead>
+                        <tr>
+                            <th>Location</th>
+                            <th>Disease</th>
+                            <th>Date of Vaccination</th>
+                            <th>Vaccinated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Vaccinations data will be inserted here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
     <script src="view_data.js"></script>
 </body>
 </html>
+
