@@ -146,6 +146,7 @@
                     const messageDiv = document.getElementById('response-message');
                     if (response.ok) {
                         messageDiv.innerHTML = `<p class="success">${result.message || 'Record added successfully!'}</p>`;
+                        
                     } else {
                         messageDiv.innerHTML = `<p class="error">${result.error || 'Error adding record'}</p>`;
                     }

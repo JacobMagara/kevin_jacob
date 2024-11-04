@@ -201,7 +201,7 @@ p.login-link a:hover, p.register-link a:hover {
 }
 
 .welcome-actions a {
-     padding: 12px 24px;
+    padding: 12px 24px;
     background-color: #007bff;
     color: white;
     font-size: 16px;
@@ -262,9 +262,9 @@ a:hover {
 
 .data {
     display: flex;
-    flex-flow: row wrap;
-    justify-content: space-around;
-    align-items: center;
+    flex-flow: row;
+    justify-content: space-evenly;
+    margin-top: 10px;
 }
 
 .data table td{
@@ -273,4 +273,45 @@ a:hover {
 
 .data h2 {
     text-align: center;
+}
+
+.nav_items a{
+    padding: 12px 24px;
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0 10px;
+    text-decoration: none;
+    width: 150px;
+}
+
+.nav_items {
+    text-align: center;
+}
+
+.table_items th{
+    padding: 10px 30px;
+}
+
+.about-content {
+    margin-top: 2em;
+}
+
+.about-content h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.about-content div {
+    margin: 2em 6em;
+
+}
+
+.features ul {
+    margin-left: 4em;
 }
