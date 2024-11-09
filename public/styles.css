@@ -296,6 +296,12 @@ a:hover {
 
 .table_items th{
     padding: 10px 30px;
+    text-align: center;
+}
+
+.table_items td{
+    padding: 10px 30px;
+    text-align: center;   
 }
 
 .about-content {
@@ -309,13 +315,12 @@ a:hover {
 
 .about-content div {
     margin: 2em 6em;
-
 }
 
 .features ul {
     margin-left: 4em;
 }
 
-.table_items {
+.logout-container {
     text-align: center;
 }

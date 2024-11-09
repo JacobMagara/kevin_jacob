@@ -115,51 +115,57 @@
     </div>
 
     <script>
-        // Function to handle form submission
-        function handleFormSubmission(formId, apiUrl) {
-            const form = document.getElementById(formId);
-            form.addEventListener('submit', async (event) => {
-                event.preventDefault(); // Prevent the default form submission behavior
+       // Function to handle form submission
+function handleFormSubmission(formId, apiUrl) {
+    const form = document.getElementById(formId);
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault(); // Prevent the default form submission behavior
 
-                const formData = new FormData(form); // Capture form data
+        const formData = new FormData(form); // Capture form data
 
-                // Create a JSON object from the FormData
-                const formObject = {};
-                formData.forEach((value, key) => {
-                    formObject[key] = value;
-                });
+        // Create a JSON object from the FormData
+        const formObject = {};
+        formData.forEach((value, key) => {
+            formObject[key] = value;
+        });
 
-                try {
-                    // Send an asynchronous POST request
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(formObject),
-                    });
-
-                    // Parse the JSON response
-                    const result = await response.json();
-
-                    // Display success or error message
-                    const messageDiv = document.getElementById('response-message');
-                    if (response.ok) {
-                        messageDiv.innerHTML = `<p class="success">${result.message || 'Record added successfully!'}</p>`;
-                        
-                    } else {
-                        messageDiv.innerHTML = `<p class="error">${result.error || 'Error adding record'}</p>`;
-                    }
-                } catch (error) {
-                    // Handle any errors during the request
-                    document.getElementById('response-message').innerHTML = `<p class="error">An error occurred: ${error.message}</p>`;
-                }
+        try {
+            // Send an asynchronous POST request
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formObject),
             });
-        }
 
-        // Apply the function to both forms
-        handleFormSubmission('incidentForm', '/api/add_data');
-        handleFormSubmission('vaccinationForm', '/api/add_data');
+            // Parse the JSON response
+            const result = await response.json();
+
+            // Display success or error message
+            const messageDiv = document.getElementById('response-message');
+            if (response.ok) {
+                messageDiv.innerHTML = `<p class="success">${result.message || 'Record added successfully!'}</p>`;
+
+                // Reset the form after successful submission
+                form.reset(); // This will clear all form fields
+
+                // Optionally, you can focus on the first field after reset
+                form.querySelector('input, textarea').focus();
+            } else {
+                messageDiv.innerHTML = `<p class="error">${result.error || 'Error adding record'}</p>`;
+            }
+        } catch (error) {
+            // Handle any errors during the request
+            document.getElementById('response-message').innerHTML = `<p class="error">An error occurred: ${error.message}</p>`;
+        }
+    });
+}
+
+// Apply the function to both forms
+handleFormSubmission('incidentForm', '/api/add_data');
+handleFormSubmission('vaccinationForm', '/api/add_data');
+
     </script>
 
     <style>
