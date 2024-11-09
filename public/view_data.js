@@ -1,32 +1,3 @@
-// document.addEventListener('DOMContentLoaded', () => {
-//     fetchAllData();
-// });
-
-// // Function to fetch and display all data on the view data page
-// function fetchAllData() {
-//     fetch('/api/incidents')
-//         .then(response => response.json())
-//         .then(data => {
-//             const tableBody = document.querySelector('#data-table tbody');
-//             tableBody.innerHTML = ''; // Clear existing table data
-
-//             data.forEach(record => {
-//                 const row = document.createElement('tr');
-//                 row.innerHTML = `
-//                     <td>${record.region}</td>
-//                     <td>${record.country}</td>
-//                     <td>${record.disease_name}</td>
-//                     <td>${new Date(record.date_reported).toLocaleDateString()}</td>
-//                     <td>${record.number_of_cases}</td>
-//                     <td>${record.number_of_deaths}</td>
-//                     <td>${record.number_vaccinated || 'N/A'}</td>
-//                 `;
-//                 tableBody.appendChild(row);
-//             });
-//         })
-//         .catch(err => console.error('Error fetching data:', err));
-// }
-
 document.addEventListener('DOMContentLoaded', () => {
     fetchAllData();
 });
@@ -47,6 +18,11 @@ function fetchAllData() {
             incidencesTableBody.innerHTML = '';
             vaccinationsTableBody.innerHTML = '';
 
+            // Initialize totals
+            let totalCases = 0;
+            let totalDeaths = 0;
+            let totalVaccinated = 0;
+
             // Display incidences
             incidences.forEach(record => {
                 const row = document.createElement('tr');
@@ -58,7 +34,20 @@ function fetchAllData() {
                     <td>${record.number_of_deaths}</td>
                 `;
                 incidencesTableBody.appendChild(row);
+
+                // Update totals
+                totalCases += record.number_of_cases;
+                totalDeaths += record.number_of_deaths;
             });
+
+            // Add totals row for incidences
+            const totalsRow = document.createElement('tr');
+            totalsRow.innerHTML = `
+                <td colspan="3"><strong>Total</strong></td>
+                <td><strong>${totalCases}</strong></td>
+                <td><strong>${totalDeaths}</strong></td>
+            `;
+            incidencesTableBody.appendChild(totalsRow);
 
             // Display vaccinations
             vaccinations.forEach(record => {
@@ -70,7 +59,18 @@ function fetchAllData() {
                     <td>${record.number_of_vaccinated}</td>
                 `;
                 vaccinationsTableBody.appendChild(row);
+
+                // Update total vaccinated
+                totalVaccinated += record.number_of_vaccinated;
             });
+
+            // Add totals row for vaccinations
+            const vaccinationTotalsRow = document.createElement('tr');
+            vaccinationTotalsRow.innerHTML = `
+                <td colspan="3"><strong>Total</strong></td>
+                <td><strong>${totalVaccinated}</strong></td>
+            `;
+            vaccinationsTableBody.appendChild(vaccinationTotalsRow);
         })
         .catch(err => console.error('Error fetching data:', err));
 }

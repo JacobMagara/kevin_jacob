@@ -297,6 +297,35 @@ app.get('/api/view_data/:user_id', (req, res) => {
 });
 
 
+// API endpoint to get outbreak data
+app.get('/api/incidents', (req, res) => {
+    
+
+    const incidentsSql = 'SELECT disease_name, location, date_reported, number_of_cases, number_of_deaths FROM incidences';
+    const vaccinationsSql = 'SELECT disease_name, location, date_of_vaccination, number_of_vaccinated FROM vaccinations';
+
+    // First, query incidences
+    db.query(incidentsSql, (err, incidences) => {
+        if (err) {
+            console.log("Error retrieving incidences:", err.message);
+            return res.status(500).send('Error retrieving incidences');
+        }
+
+        // Then, query vaccinations
+        db.query(vaccinationsSql, (err, vaccinations) => {
+            if (err) {
+                console.log("Error retrieving vaccinations:", err.message);
+                return res.status(500).send('Error retrieving vaccinations');
+            }
+
+            // Send separate arrays for incidences and vaccinations
+            res.status(200).json({
+                incidences: incidences,
+                vaccinations: vaccinations
+            });
+        });
+    });
+});
 // Serve the login page
 app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'login.html'));

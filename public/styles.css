@@ -315,3 +315,7 @@ a:hover {
 .features ul {
     margin-left: 4em;
 }
+
+.table_items {
+    text-align: center;
+}
